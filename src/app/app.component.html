@@ -1,52 +1,67 @@
-<main class="main">
-  <h1>Password Genarator</h1>
-  <label for="passwordLength">Password Length</label>
-  <input id="passwordLength" (input)="onPasswordLengthChange($event)" />
-  @if (errorMessages.passwordLength) {
-  <p style="color: red">{{ errorMessages.passwordLength }}</p>
-  }
-  <div style="display: flex; flex-direction: column; gap: 10px">
-    <div>
-      <input
-        type="checkbox"
-        id="includeLetters"
-        (change)="onChangeCheckBox($event)"
-      />
-      <label for="includeLetters">Include letters</label>
+<div class="container">
+  <div class="columns is-centered">
+    <div class="box column is-one-third">
+      <h1 class="title has-text-centered">Password Generator</h1>
+
+      <div class="field">
+        <label>Length</label>
+        <input class="input" (input)="onPasswordLengthChange($event)" />
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input
+              (change)="onChangeCheckBox($event)"
+              type="checkbox"
+              id="includeLetters"
+            />
+            Use Letters
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input
+              (change)="onChangeCheckBox($event)"
+              type="checkbox"
+              id="includeNumbers"
+            />
+            Use Numbers
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input
+              (change)="onChangeCheckBox($event)"
+              type="checkbox"
+              id="includeSymbols"
+            />
+            Use Symbols
+          </label>
+        </div>
+      </div>
+
+      <button
+        [disabled]="
+          !passwordLength ||
+          (!includeLetters && !includeNumbers && !includeSymbols)
+        "
+        (click)="onButtonClick()"
+        class="button is-link is-fullwidth"
+      >
+        Generate!
+      </button>
+
+      <div class="box" *ngIf="password">
+        <label>Your Password</label>
+        <input class="input" [value]="password" />
+      </div>
     </div>
-    <div>
-      <input
-        type="checkbox"
-        id="includeNumbers"
-        (change)="onChangeCheckBox($event)"
-      />
-      <label for="includeNumbers">Include numbers</label>
-    </div>
-    <div>
-      <input
-        type="checkbox"
-        id="includeSymbols"
-        (change)="onChangeCheckBox($event)"
-      />
-      <label for="includeSymbols">Include symbols</label>
-    </div>
-    @if (errorMessages.includeOptions) {
-    <p style="color: red">{{ errorMessages.includeOptions }}</p>
-    }
   </div>
-  <button
-    (click)="onButtonClick()"
-    [disabled]="
-      !passwordLength || (!includeLetters && !includeNumbers && !includeSymbols)
-    "
-  >
-    Generate Password
-  </button>
-  <h2>Generated Password</h2>
-  <p>
-    Generated Password:
-    <input type="text" id="password" readonly [value]="password" />
-  </p>
-  <button>Copy to Clipboard</button>
-</main>
-<router-outlet />
+</div>
